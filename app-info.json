@@ -1,0 +1,13 @@
+{
+  "name" : "7os/js-generic",
+  "description" : "Generic JavaScript functions for the 7 OS Web",
+  "homepage" : "https://github.com/7os/js-generic",
+  "support" : {
+    "email" : "dev@tymfrontiers.com",
+    "website" : "https://tymfrontiers.com",
+    "kollabo" : "@tymfrontiers",
+    "twitter" : "@tymfrontiers",
+    "facebook" : "@tymfrontiers",
+    "istagram" : "@tymfrontiers"
+  }
+}

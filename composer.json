@@ -1,0 +1,25 @@
+{
+    "name": "7os/js-generic",
+    "description": "7 OS Web: JavaScript generic functions",
+    "keywords": ["css", "javascript","7","seven","os","web","generic"],
+    "homepage": "https://github.com/7os/js-generic",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ikechukwu Okalia",
+            "email": "me@sirlouis.io"
+        },
+        {
+            "name": "Tym Frontiers Ltd.",
+            "email": "dev@tymfrontiers.com"
+        }
+    ],
+    "require": {
+      "7os/jquery" : ">=0.1@stable"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {}
+    }
+}
