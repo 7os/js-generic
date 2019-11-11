@@ -1,8 +1,8 @@
 <?php
 // load up app settings
 $conf_path = \str_replace([
-  "/vendor/7os/js-generic",
-  "/dev/7os/js-generic",
+  "/vendor/7os/js-generic-soswapp",
+  "/dev/7os/js-generic-soswapp",
   "\\vendor\\7os\\js-generic",
   "\\dev\\7os\\js-generic",
 ],"",__DIR__);

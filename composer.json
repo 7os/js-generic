@@ -1,8 +1,8 @@
 {
-    "name": "7os/js-generic",
+    "name": "7os/js-generic-soswapp",
     "description": "7 OS Web: JavaScript generic functions",
     "keywords": ["css", "javascript","7","seven","os","web","generic"],
-    "homepage": "https://github.com/7os/js-generic",
+    "homepage": "https://github.com/7os/js-generic-soswapp",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-      "7os/jquery" : ">=0.1@stable"
+      "7os/jquery-soswapp" : ">=0.1@stable"
     },
     "require-dev": {},
     "autoload": {

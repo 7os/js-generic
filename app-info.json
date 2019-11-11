@@ -1,7 +1,7 @@
 {
-  "name" : "7os/js-generic",
+  "name" : "7os/js-generic-soswapp",
   "description" : "Generic JavaScript functions for the 7 OS Web",
-  "homepage" : "https://github.com/7os/js-generic",
+  "homepage" : "https://github.com/7os/js-generic-soswapp",
   "support" : {
     "email" : "dev@tymfrontiers.com",
     "website" : "https://tymfrontiers.com",
