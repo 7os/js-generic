@@ -58,6 +58,13 @@ function is_localhost () {
   var ip_regex = /^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/;
   return ip_regex.test(address) || address === 'localhost';
 }
+function parseBool (val) {
+  return (
+    val.toUpperCase === 'TRUE'
+    || val === 1
+    || val === '1'
+  );
+}
 window.url = {
   parse : function(link,k){
     link = link ? link : location.href;
@@ -206,74 +213,6 @@ $.fn.readFileURL = function($input){
         reader.readAsDataURL($input.files[0]);
    }
 };
-window.monthToAlpha = {
-  0 : 'January',
-  1 : 'February',
-  2 : 'March',
-  3 : 'April',
-  4 : 'May',
-  5 : 'June',
-  6 : 'July',
-  7 : 'August',
-  8 : 'September',
-  9 : 'October',
-  10: 'November',
-  11: 'December'
-}
-window.dateSurfix = function(date){
-  var dateSurfix = { 1 : 'st', 2 : 'nd', 3:'rd',21:'st',22:'nd',23:'rd',31:'st',def:'th'}
-  return date in dateSurfix ? date+dateSurfix[date] : date+'th';
-}
-function betaTym(datetym,opt){
-  if( dataTym = new Date(datetym) ){
-    var mmA = {
-      0 : 'January',
-      1 : 'February',
-      2 : 'March',
-      3 : 'April',
-      4 : 'May',
-      5 : 'June',
-      6 : 'July',
-      7 : 'August',
-      8 : 'September',
-      9 : 'October',
-      10: 'November',
-      11: 'December'
-    }
-    var subs = ['year','month','day','hour','minute','second'];
-    var dateSurfix = { 1 : 'st', 2 : 'nd', 3:'rd',21:'st',22:'nd',23:'rd',31:'st',def:'th'}
-    var opts = {
-      sub : false,
-      shortMonth : false,
-      monthNum : false,
-      surfixDate : false,
-      shortYear : false,
-    }
-
-    return dataTym;
-  }
-  return false;
-}
-function fetchData(url,param,opt,callBack){
-  if(url){
-    var method = typeof opt === 'object' && opt.type ? opt.type : 'post';
-    var dataType = typeof opt === 'object' && opt.dataType ? opt.dataType : 'text';
-    var reqOpt = {
-      type : method,
-      url : url,
-      dataType : dataType,
-      success : function(data){
-        if (data) {  callBack(data);   }
-      },
-      error		:	function(xhr, textStatus, errorThrown){
-        var errorMessage = xhr.responseText;
-        alert("Unable to fetch data",errorMessage,{type:'error'});
-      }
-    }
-    if (param){ reqOpt.data = param;}
-    return $.ajax(reqOpt);
-  }
-}
 function sqldt_convert(sqld){
   // Split timestamp into [ Y, M, D, h, m, s ]
 var t = sqld.split(/[- :]/);
