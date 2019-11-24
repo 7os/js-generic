@@ -53,6 +53,10 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+String.prototype.ucfirst = function(rest_lower) {
+  return this.charAt(0).toUpperCase() + (rest_lower == true ? this.slice(1).toLowerCase() : this.slice(1))
+}
+
 function is_localhost () {
   var address = window.location.href.split('/')[2];
   var ip_regex = /^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/;
@@ -448,6 +452,9 @@ function ucwords(str) {
       return $1.toUpperCase();
     });
 }
+String.prototype.ucwords = function(){
+  return ucwords(this);
+};
 function clock($weekNow,$dateNow,$tymNow,$secNow){
 	var date = new Date();
 	var monthAlpha = {0:'January',1:'February',2:'March',3:'April',4:'May',5:'June',6:'July',7:'August',8:'September',9:'October',10:'November',11:'December'};
