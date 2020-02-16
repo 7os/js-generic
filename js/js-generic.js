@@ -69,6 +69,60 @@ function parseBool (val) {
     || val === '1'
   );
 }
+function minuteTimer(duration, display, callback) {
+  var timer = duration, minutes, seconds;
+  display = $(display);
+  var tymer = setInterval(function () {
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.text(minutes + ":" + seconds);
+
+    if (--timer < 0) {
+      display.text("00:00");
+      if ( typeof callback == 'function') {
+        clearInterval(tymer);
+        callback();
+      }
+    }
+  }, 1000);
+}
+function cb_copy_alt(_text) {
+  var textArea = document.createElement("textarea");
+  textArea.value = _text;
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var copied = successful ? true : false;
+    if (copied) {
+      alert("<h2> <i class=\"fas fa-clipboard\"></i> Clipboard updated!</h2> <p>Copied to your clipboard</p>",{type:'success',exit:true});
+    } else {
+      alert("<h2> <i class=\"fas fa-clipboard\"></i> Auto copy failed.</h2> <p>Your browser won't allow me copy to your clipboard. <br> <br> Kindly select and copy manually.</p>",{type:'error',exit:true});
+    }
+  } catch (_err) {
+    alert("<h2> <i class=\"fas fa-clipboard\"></i> Auto copy failed.</h2> <p>Your browser won't allow me copy to your clipboard. <br> <br> Kindly select and copy manually.</p>",{type:'error',exit:true});
+  }
+
+  document.body.removeChild(textArea);
+}
+function cb_copy(_text) {
+  if (!navigator.clipboard) {
+    cb_copy_alt(_text);
+    return;
+  }
+  navigator.clipboard.writeText(_text).then(function() {
+    alert("<h2> <i class=\"fas fa-clipboard\"></i> Clipboard updated!</h2> <p>Copied to your clipboard</p>",{type:'success',exit:true});
+  }, function(_err) {
+    alert("<h2> <i class=\"fas fa-clipboard\"></i> Auto copy failed.</h2> <p>Your browser won't allow me copy to your clipboard. <br> <br> Kindly select and copy manually.</p>",{type:'error',exit:true});
+  });
+}
+
 window.url = {
   parse : function(link,k){
     link = link ? link : location.href;
