@@ -1,4 +1,5 @@
 // JavaScript Document
+const jsGenericLoaded = true;
 if (!window.location.origin) {
   window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
 }
@@ -49,10 +50,85 @@ window.file_ext_to_mimetype = {
   'odt' : 'application/vnd.oasis.opendocument.text',
   'ods' : 'application/vnd.oasis.opendocument.spreadsheet'
 }
+window.file_extension = function (mime) {
+  return in_array(mime, file_ext_to_mimetype)
+    ? array_key(mime, file_ext_to_mimetype)
+    : "unknown";
+}
+
+function file_group (mime) {
+  let file_groups = {
+    "image" 		: {
+        "png" : "image/png",
+        "jpg" : "image/jpeg",
+        "jpeg" : "image/jpeg",
+        "jpe" : "image/jpeg",
+        "gif" : "image/gif",
+        "bmp" : "image/bmp",
+        "ico" : "image/vnd.microsoft.icon",
+        "tiff" : "image/tiff",
+        "tif" : "image/tiff",
+        "svg" : "image/svg+xml",
+        "svgz" : "image/svg+xml"
+      },
+    "audio"			: {
+        "mp3" : "audio/mpeg",
+      },
+    "video"			: {
+        "qt" : "video/quicktime",
+        "mov" : "video/quicktime",
+        "mp4" : "video/mpeg",
+        "swf" : "application/x-shockwave-flash",
+        "flv" : "video/x-flv",
+      },
+    "script"			: {
+        "txt" : "text/plain",
+        "htm" : "text/html",
+        "html" : "text/html",
+        "php" : "text/html",
+        "css" : "text/css",
+        "js" : "application/javascript",
+        "json" : "application/json",
+        "xml" : "application/xml",
+      },
+    "archive"		: {
+        "zip" : "application/zip",
+        "rar" : "application/x-rar-compressed",
+        "7z"		: "application/x-7z-compressed",
+        "exe" : "application/x-msdownload",
+        "msi" : "application/x-msdownload",
+        "cab" : "application/vnd.ms-cab-compressed",
+      },
+    "document"		: {
+        "pdf" : "application/pdf",
+        "doc" : "application/msword",
+        "docx" : "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "rtf" : "application/rtf",
+        "xls" : "application/vnd.ms-excel",
+        "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "ppt" : "application/vnd.ms-powerpoint",
+        "pptx" : "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "odt" : "application/vnd.oasis.opendocument.text",
+        "ods" : "application/vnd.oasis.opendocument.spreadsheet"
+      },
+    "graphic"			: {
+      "psd" : "image/vnd.adobe.photoshop",
+      "ai" : "application/postscript",
+      "eps" : "application/postscript",
+      "ps" : "application/postscript"
+      }
+  };
+  let $return = "unknown";
+  $.each(file_groups, function (grp, obj) {
+    if ( mime in obj || in_array(mime, Object.values(obj))) $return = grp;
+  });
+  return $return;
+}
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+let replace_all = String.prototype.replaceAll;
 String.prototype.ucfirst = function(rest_lower) {
   return this.charAt(0).toUpperCase() + (rest_lower == true ? this.slice(1).toLowerCase() : this.slice(1))
 }
@@ -62,6 +138,77 @@ function is_localhost () {
   var ip_regex = /^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/;
   return ip_regex.test(address) || address === 'localhost';
 }
+String.prototype.is_valid_url = function () {
+  let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '(localhost\\/?)|'+ // localhost
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(this);
+}
+const object_length = (object = {}) => {
+  if (typeof object !== "object") return "N/A";
+  return Object.keys(object).length;
+}
+const script_loaded = (src) => {
+  let regex = new RegExp(src, 'i');
+  return find_script_by_regexp(regex, false);
+}
+const byte_size = (bytes = 0) => {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'];
+  if (bytes === 0) return ['n/a', null];
+  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+  if (i === 0) return [bytes, `${sizes[i]}`];
+  return [parseFloat(`${(bytes / (1024 ** i)).toFixed(2)}`), `${sizes[i]}`];
+}
+const find_script_by_regexp = (regex, return_search = true) => {
+  let output = [];
+  for (let i of document.querySelectorAll('link[rel="stylesheet"], script[src]')) {
+    if (regex.test(i.href) || regex.test(i.src)) { // or whatever attribute you want to search
+      output.push(i);
+    }
+  }
+  return return_search === true
+    ? output
+    : object_length(output) > 0
+}
+const load_script = (script_file, type="js", callback) => {
+  if (!script_file) return false;
+  let script;
+  if (type === "js") {
+    // $.getScript(script_file, function() {
+    //   if (typeof callback === "function") callback();
+    // });
+    $("<script/>", {
+      type : "text/javascript",
+      src : script_file
+    }).appendTo("head");
+  } if (type === "css") {
+    $("<link/>", {
+      rel: "stylesheet",
+      type: "text/css",
+      href: script_file
+    }).appendTo("head");
+    if (typeof callback === "function") {
+      callback();
+    }
+  }
+}
+const require_script = (script, search="", type="js") => {
+  if ((typeof search === "string" && search.length > 0) && !script_loaded(search, false) ) {
+    load_script(script, type);
+  } else {
+    if (!script_loaded(search, false)) load_script(script, type);
+  }
+};
+const unset_var = (variable) => {
+  if (typeof window[variable] !== "undefined") {
+    window[variable] = undefined;
+    delete window[variable];
+  }
+}
 function parseBool (val) {
   return (
     val.toUpperCase === 'TRUE'
@@ -69,6 +216,7 @@ function parseBool (val) {
     || val === '1'
   );
 }
+const parse_bool = parseBool;
 function minuteTimer(duration, display, callback) {
   var timer = duration, minutes, seconds;
   display = $(display);
@@ -90,6 +238,7 @@ function minuteTimer(duration, display, callback) {
     }
   }, 1000);
 }
+let minute_timer = minuteTimer;
 function cb_copy_alt(_text) {
   var textArea = document.createElement("textarea");
   textArea.value = _text;
