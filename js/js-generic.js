@@ -217,7 +217,7 @@ function parseBool (val) {
   );
 }
 const parse_bool = parseBool;
-function minuteTimer(duration, display, callback) {
+const minuteTimer = (duration, display, callback) => {
   var timer = duration, minutes, seconds;
   display = $(display);
   var tymer = setInterval(function () {
@@ -238,7 +238,7 @@ function minuteTimer(duration, display, callback) {
     }
   }, 1000);
 }
-let minute_timer = minuteTimer;
+const minute_timer = minuteTimer;
 function cb_copy_alt(_text) {
   var textArea = document.createElement("textarea");
   textArea.value = _text;
